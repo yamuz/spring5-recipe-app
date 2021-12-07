@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 public class UnitOfMeasure {
+    //after addition
     private String description;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
