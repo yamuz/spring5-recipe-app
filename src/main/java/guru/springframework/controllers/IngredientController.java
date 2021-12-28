@@ -3,6 +3,7 @@ package guru.springframework.controllers;
 import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.commands.UnitOfMeasureCommand;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.IngredientService;
 import guru.springframework.services.RecipeService;
 import guru.springframework.services.UnitOfMeasureService;
@@ -32,7 +33,7 @@ public class IngredientController {
     }
 
     @GetMapping("/recipe/{recipeId}/ingredients")
-    public String listIngredients(@PathVariable String recipeId, Model model){
+    public String listIngredients(@PathVariable String recipeId, Model model) throws NotFoundException {
         log.debug("Getting ingredient list for recipe id: " + recipeId);
 
         // use command object to avoid lazy load errors in Thymeleaf.
@@ -49,7 +50,7 @@ public class IngredientController {
     }
 
     @GetMapping("recipe/{recipeId}/ingredient/new")
-    public String newRecipe(@PathVariable String recipeId, Model model){
+    public String newRecipe(@PathVariable String recipeId, Model model) throws NotFoundException {
 
         //make sure we have a good id value
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));

@@ -1,6 +1,7 @@
 package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.ImageService;
 import guru.springframework.services.RecipeService;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -32,7 +33,7 @@ public class ImageController {
     }
 
     @GetMapping("recipe/{id}/image")
-    public String showUploadForm(@PathVariable String id, Model model){
+    public String showUploadForm(@PathVariable String id, Model model) throws NotFoundException {
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
 
         return "recipe/imageuploadform";
@@ -47,7 +48,7 @@ public class ImageController {
     }
 
     @GetMapping("recipe/{id}/recipeimage")
-    public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException {
+    public void renderImageFromDB(@PathVariable String id, HttpServletResponse response) throws IOException, NotFoundException {
         RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(id));
 
         if (recipeCommand.getImage() != null) {
